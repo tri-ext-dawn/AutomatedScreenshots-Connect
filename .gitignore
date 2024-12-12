@@ -838,3 +838,4 @@ FodyWeavers.xsd
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/screenshots/
