@@ -1,5 +1,4 @@
 import { Page } from '@playwright/test';
-import { test, expect } from '../../utils/base';
 
 export async function Capture(page: Page, lang: string) {
     await GoToMainPage(page, lang);
@@ -9,6 +8,7 @@ export async function Capture(page: Page, lang: string) {
 
     await ClickAndCaptureGrowthHormoneIndicationButton(page, lang);
     await ClickAndCaptureContactTypeButton(page, lang);
+    await ClickCloseButton(page);
 }
 
 async function GoToMainPage(page, lang: string) {
@@ -40,6 +40,10 @@ async function ClickAndCaptureContactTypeButton(page: Page, lang: string) {
 async function TakeScreenshot(page: Page, lang: string) {
     var viewPort = page.viewportSize();
     await page.setViewportSize({ width: 1920, height: 3000 });
-    await page.screenshot({ path: `screenshots/${lang}/add-patient.png`, fullPage: true });
+    await page.screenshot({ path: `screenshots/${lang}/add-patient.interesting-format.png`, fullPage: true });
     await page.setViewportSize({ width: viewPort?.width ?? 1920, height: viewPort?.height ?? 1080 });
+}
+
+async function ClickCloseButton(page: Page) {
+    await page.click('button.global-icon-button.icon-button_icon-button__eT309.icon-button_is-tertiary__1iRhi.icon-button_is-size-small__qN3O1.icon-button_is-hover-style__RzQcM');
 }
