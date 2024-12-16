@@ -3,10 +3,11 @@ import * as connectAdmin from '../pages/connect-admin';
 import * as addPatiens from '../pages/add-patient';
 import * as accountSettings from '../pages/account-settings';
 import * as patientSettings from '../pages/patient-settings';
+import * as patien from '../pages/patient';
 
 test('Test', async ({ page }) => {
     const lang = 'en';
-    await patientSettings.Capture(page, lang);
+    await patien.Capture(page, lang);
 
     await page.waitForTimeout(1000);
 });
@@ -26,6 +27,7 @@ export async function testFlow(page, lang: string) {
     await addPatiens.Capture(page, lang);
     await accountSettings.Capture(page, lang);
     await patientSettings.Capture(page, lang);
+    await patien.Capture(page, lang);
     await page.waitForTimeout(1000);
 }
 
