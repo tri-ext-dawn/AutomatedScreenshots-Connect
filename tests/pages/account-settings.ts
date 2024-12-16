@@ -21,6 +21,7 @@ export async function Capture(page: Page, lang: string) {
     await ClickLogout(page);
     await TakeScreenshot(page, `screenshots/${lang}/account-settings-logout.png`);
 }
+
 async function TakeScreenshot(page: Page, path: string) {
     await page.screenshot({ path: path, animations: 'disabled' });
 }

@@ -18,8 +18,9 @@ export const expect = base.expect;
 export type Page = PageType;
 
 const before = async ({ page }: { page: PageType }): Promise<void> => {
-  await Login(page); 
-  await AcceptCookies(page);
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await Login(page); 
+    await AcceptCookies(page);
 };
 
 const after = async ({ page }: { page: Page }): Promise<void> => {
