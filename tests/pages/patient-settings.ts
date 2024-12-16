@@ -7,7 +7,29 @@ export async function Capture(page: Page, lang: string) {
     await TakeScreenshot(page, `screenshots/${lang}/patient-settings.png`);
 
     await PrintReport(page, lang);
-    
+    await RecordGrowth(page, lang);
+
+    await AssignDevice(page, lang);
+}
+
+async function AssignDevice(page: Page, lang: string) {
+    await ClickRowOptions(page);
+    await ClickAssignDevice(page);
+    await WaitForDeviceIDInput(page);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-settings-assign-device.png`);
+    await ClickClose(page);
+}
+
+async function WaitForDeviceIDInput(page: Page) {
+    await page.waitForSelector('input[data-content-identifier="global.addDevices.easypod.deviceIDButton"].base-auto-complete_text-input__zu_CD');
+}
+
+async function RecordGrowth(page: Page, lang: string) {
+    await ClickRowOptions(page);
+    await ClickRecordGrowth(page);
+    await ClickSave(page);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-settings-record-growth.png`);
+    await ClickClose(page);
 }
 
 async function PrintReport(page: Page, lang: string) {
@@ -61,3 +83,18 @@ function ClosePage(page: Page) {
     page.close();
 }
 
+async function ClickRecordGrowth(page: Page) {
+    await page.click('button.menu-item_menu-item__n3DBy.menu-item_light__CERjd[data-content-identifier="hcp.patientOverview.editDots.recordGrowthButton"]');
+}
+
+async function ClickSave(page: Page) {
+    await page.click('button.generic-button_generic-button__NgNV5.generic-button_is-primary__O7bz2.generic-button_is-small__3oaxU[data-content-identifier="hcp.patientOverview.assignPreferredContact.saveButton"]');
+}
+
+async function ClickClose(page: Page) {
+    await page.click('button.global-icon-button.icon-button_icon-button__eT309.icon-button_is-tertiary__1iRhi.icon-button_is-size-small__qN3O1.icon-button_is-hover-style__RzQcM');
+}
+
+async function ClickAssignDevice(page: Page) {
+    await page.click('button.menu-item_menu-item__n3DBy.menu-item_light__CERjd[data-content-identifier="hcp.patientOverview.editDots.assignDeviceButton"]');
+}
