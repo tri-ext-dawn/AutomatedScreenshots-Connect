@@ -839,3 +839,4 @@ FodyWeavers.xsd
 /blob-report/
 /playwright/.cache/
 /screenshots/
+/images-to-pdf/output-pdfs/
