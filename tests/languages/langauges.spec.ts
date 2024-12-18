@@ -4,10 +4,11 @@ import * as addPatiens from '../pages/add-patient';
 import * as accountSettings from '../pages/account-settings';
 import * as patientSettings from '../pages/patient-settings';
 import * as patien from '../pages/patient';
+import * as startup from '../pages/startup';
 
 test('Test', async ({ page }) => {
     const lang = 'en';
-    await patien.Capture(page, lang);
+    await startup.Capture(page, lang);
 
     await page.waitForTimeout(1000);
 });
@@ -24,6 +25,7 @@ test('Swedish', async ({ page }) => {
 });
 
 export async function testFlow(page, lang: string) {
+    await startup.Capture(page, lang);
     await addPatiens.Capture(page, lang);
     await accountSettings.Capture(page, lang);
     await patientSettings.Capture(page, lang);

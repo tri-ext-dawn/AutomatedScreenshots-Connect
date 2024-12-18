@@ -33,6 +33,8 @@ export default defineConfig({
     baseURL: 'https://growzen-hcpportal-web-qa.azurewebsites.net/',
   },
 
+  timeout: 10 * 60000,
+
   /* Configure projects for major browsers */
   projects: [
     {

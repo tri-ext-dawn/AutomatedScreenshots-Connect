@@ -19,8 +19,6 @@ export type Page = PageType;
 
 const before = async ({ page }: { page: PageType }): Promise<void> => {
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await Login(page); 
-    await AcceptCookies(page);
 };
 
 const after = async ({ page }: { page: Page }): Promise<void> => {

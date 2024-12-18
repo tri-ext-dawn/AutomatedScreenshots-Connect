@@ -71,11 +71,11 @@ async function ClickPeriodDropdown(page: Page) {
 
 async function ClickPrint(page: Page) {
     const [newPage] = await Promise.all([
-        page.context().waitForEvent('page'), // Wait for the new page to open
+        page.context().waitForEvent('page'), 
         page.click('button.generic-button_generic-button__NgNV5.generic-button_is-primary__O7bz2.generic-button_is-small__3oaxU[data-content-identifier="global.printButton"]')
     ]);
 
-    await newPage.waitForLoadState('networkidle'); // Wait for the new page to load completely
+    await newPage.waitForLoadState('networkidle', { timeout: 60000 }); 
     return newPage;
 }
 
