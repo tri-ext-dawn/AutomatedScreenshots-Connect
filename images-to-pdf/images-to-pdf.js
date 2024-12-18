@@ -1,4 +1,4 @@
-const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 const path = require('path');
 
@@ -20,24 +20,13 @@ async function imagesToPdf(folderPath, outputPath) {
       }
 
       if (image) {
-        const page = pdfDoc.addPage();
+        const imageDims = image.scale(1);
+        const page = pdfDoc.addPage([imageDims.width, imageDims.height]);
         const { width, height } = page.getSize();
-        const imageDims = image.scale(0.5);
-        const fontSize = 24;
-        const textWidth = page.getWidth() - 2 * 50;
-        const textHeight = fontSize + 10;
-
-        page.drawText(file, {
-          x: 50,
-          y: height - textHeight - 50,
-          size: fontSize,
-          font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-          color: rgb(0, 0, 0),
-        });
 
         page.drawImage(image, {
           x: (width - imageDims.width) / 2,
-          y: (height - imageDims.height) / 2 - textHeight,
+          y: (height - imageDims.height),
           width: imageDims.width,
           height: imageDims.height,
         });
@@ -45,21 +34,30 @@ async function imagesToPdf(folderPath, outputPath) {
     }
   }
 
-  // Ensure the output directory exists
-  const outputDir = path.dirname(outputPath);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
   const pdfBytes = await pdfDoc.save();
   fs.writeFileSync(outputPath, pdfBytes);
 }
 
-const folderPath = '../screenshots/en';
-const outputPath = './output-pdfs/output.pdf'; // Changed to relative path
+async function processDirectories(baseFolderPath) {
+  const subDirs = fs.readdirSync(baseFolderPath).filter(file => fs.statSync(path.join(baseFolderPath, file)).isDirectory());
 
-imagesToPdf(folderPath, outputPath).then(() => {
-  console.log('PDF created successfully!');
-}).catch(err => {
-  console.error('Error creating PDF:', err);
+  for (const subDir of subDirs) {
+    const folderPath = path.join(baseFolderPath, subDir);
+    const outputPath = path.join('./output-pdfs', `${subDir}.pdf`);
+
+    // Ensure the output directory exists
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    await imagesToPdf(folderPath, outputPath);
+    console.log(`PDF created for ${subDir} successfully!`);
+  }
+}
+
+const baseFolderPath = '../screenshots';
+
+processDirectories(baseFolderPath).catch(err => {
+  console.error('Error creating PDFs:', err);
 });
