@@ -1,4 +1,4 @@
-import { test, expect, Page } from '../../utils/base';
+import { test, Page } from '@playwright/test';
 import * as connectAdmin from '../pages/connect-admin';
 import * as addPatiens from '../pages/add-patient';
 import * as accountSettings from '../pages/account-settings';

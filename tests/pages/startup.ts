@@ -14,6 +14,7 @@ async function TakeScreenshot(page: Page, path: string) {
 }
 
 async function Login(page: Page, lang: string) {
+    const newUsername: string = `tri_ext+${lang}@dawnhealth.com`;
     const username: string = process.env.USERNAME ?? 'Error';
     const password: string = process.env.PASSWORD ?? 'Error';
 
