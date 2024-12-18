@@ -17,11 +17,29 @@ async function Auxological(page: Page, lang: string) {
     await ClickAuxologicalData(page);
     await ClickGraphTypeButton(page);
     await page.waitForTimeout(1000);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data.png`);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-height.png`);
 
     await ClickDeleteVital(page);
     await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-delete-vital.png`);
     await ClickDontDeleteText(page);
+
+    await ClickGraphTypeButton(page);
+    await ClickWeight(page);
+    await page.waitForTimeout(1000);
+    // await ClickReferenceData(page); // TODO: Fix this
+    await ClickBoneAge(page);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-weight.png`); 
+
+    await ClickGraphTypeButton(page);
+    await page.waitForTimeout(1000);
+    await ClickBMIButton(page);
+    await ClickBirthAndFamilyHistoryButton(page);
+    await page.waitForTimeout(1000);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-bmi.png`);
+
+    await ClickEditFamilyHistory(page);
+    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-bmi-edit.png`);
+    await ClickCancelEditFamilyHistory(page);
 
     await page.setViewportSize({ width: viewPort?.width ?? 1920, height: viewPort?.height ?? 1080 });
 }
@@ -68,7 +86,7 @@ async function GoToMainPage(page, lang: string) {
     await page.waitForSelector('tr.table_row__Hfk_t.table_is-hover-style__CiCls');
     await ClickRowOptions(page);
     await ClickViewPatient(page);
-    await page.waitForSelector('h2.is-headline-1-regular', { text: 'Adherence' });
+    await page.waitForSelector('h2.is-headline-1-regular');
 }
 
 async function ClickRowOptions(page: Page) {
@@ -161,4 +179,32 @@ async function ClickDeletePatient(page: Page) {
 
 async function ClickDontDeletePatient(page: Page) {
     await page.click('button.generic-button_generic-button__NgNV5.generic-button_is-secondary__bQ6Nr[data-content-identifier="hcp.patientOverview.deletePatient.dontDeletePatientButton"]');
+}
+
+async function ClickWeight(page: Page) {
+    await page.click('button[data-content-identifier="hcp.patient.auxological.graphTypeButton.weight"].option_option-button__AUnVx');
+}
+
+async function ClickReferenceData(page: Page) {
+    await page.click('button[data-content-identifier="hcp.patient.auxological.graphTypeButton"].dropdown-trigger_dropdown-trigger__RkQnj');
+}
+
+async function ClickBMIButton(page: Page) {
+    await page.click('button[data-content-identifier="hcp.patient.auxological.graphTypeButton.bmi"].option_option-button__AUnVx');
+}
+
+async function ClickBoneAge(page: Page) {
+    await page.click('a[data-content-identifier="hcp.patient.auxological.boneAgeButton"].tab-link_tab__hRAcL');
+}
+
+async function ClickBirthAndFamilyHistoryButton(page: Page) {
+    await page.click('a[data-content-identifier="hcp.patient.auxological.birthAndFamilyHistoryButton"].tab-link_tab__hRAcL');
+}
+
+async function ClickEditFamilyHistory(page: Page) {
+    await page.click('button.generic-button_generic-button__NgNV5.generic-button_is-primary__O7bz2.generic-button_is-small__3oaxU.generic-button_has-icon__QMUna[data-content-identifier="hcp.patient.auxological.birthAndFamilyHistory.editButton"]');
+}
+
+async function ClickCancelEditFamilyHistory(page: Page) {
+    await page.click('button.generic-button_generic-button__NgNV5.generic-button_is-tertiary__4O_fg.generic-button_is-small__3oaxU[data-content-identifier="hcp.patient.auxological.birthAndFamilyHistory.edit.cancelButton"]');
 }
