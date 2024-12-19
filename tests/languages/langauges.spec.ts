@@ -6,6 +6,7 @@ import * as patientSettings from '../pages/patient-settings';
 import * as patien from '../pages/patient';
 import * as startup from '../pages/startup';
 
+
 test('Test', async ({ page }) => {
     const lang = 'en';
     const region = 'ae';
