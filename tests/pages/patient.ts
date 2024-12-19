@@ -1,9 +1,10 @@
 import { Page } from '@playwright/test';
+import { TakeScreenshot } from '../../utils/utils';
 
 export async function Capture(page: Page, lang: string, region: string) {
     await GoToMainPage(page, lang);
     await page.waitForTimeout(2000);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-adherence.png`);
+    await TakeScreenshot(page, region, `patient-page-adherence`);
 
     await Profile(page, lang, region);
     await Contacts(page, lang, region);
@@ -18,10 +19,10 @@ async function Auxological(page: Page, lang: string, region: string) {
     await ClickAuxologicalData(page);
     await ClickGraphTypeButton(page);
     await page.waitForTimeout(1000);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-height.png`);
+    await TakeScreenshot(page, region, `patient-page-Auxological-data-height`);
 
     await ClickDeleteVital(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-delete-vital.png`);
+    await TakeScreenshot(page, region, `patient-page-Auxological-data-delete-vital`);
     await ClickDontDeleteText(page);
 
     await ClickGraphTypeButton(page);
@@ -29,17 +30,17 @@ async function Auxological(page: Page, lang: string, region: string) {
     await page.waitForTimeout(1000);
     // await ClickReferenceData(page); // TODO: Fix this
     await ClickBoneAge(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-weight.png`); 
+    await TakeScreenshot(page, region, `patient-page-Auxological-data-weight`); 
 
     await ClickGraphTypeButton(page);
     await page.waitForTimeout(1000);
     await ClickBMIButton(page);
     await ClickBirthAndFamilyHistoryButton(page);
     await page.waitForTimeout(1000);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-bmi.png`);
+    await TakeScreenshot(page, region, `patient-page-Auxological-data-bmi`);
 
     await ClickEditFamilyHistory(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-bmi-edit.png`);
+    await TakeScreenshot(page, region, `patient-page-Auxological-data-bmi-edit`);
     await ClickCancelEditFamilyHistory(page);
 
     await page.setViewportSize({ width: viewPort?.width ?? 1920, height: viewPort?.height ?? 1080 });
@@ -47,41 +48,37 @@ async function Auxological(page: Page, lang: string, region: string) {
 
 async function Reminders(page: Page, lang: string, region: string) {
     await ClickReminders(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-reminders.png`);
+    await TakeScreenshot(page, region, `patient-page-reminders`);
 }
 
 async function Devices(page: Page, lang: string, region: string) {
     await ClickDevices(page);
     await ClickUnassignDevice(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-device-unassign.png`);
+    await TakeScreenshot(page, region, `patient-page-device-unassign`);
     await ClickDontUnassignDevice(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-device.png`);
+    await TakeScreenshot(page, region, `patient-page-device`);
 }
 
 async function Contacts(page: Page, lang: string, region: string) {
     await ClickContacts(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts.png`);
+    await TakeScreenshot(page, region, `patient-page-contacts`);
 
     await ClickSendInviteAgain(page); // Todo: send Invite (not done) and Resend Invite (done)
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts-invite-notification.png`);
+    await TakeScreenshot(page, region, `patient-page-contacts-invite-notification`);
     await ClickCloseIconButton(page);
 
     await ClickDeleteContact(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts-delete-notification.png`);
+    await TakeScreenshot(page, region, `patient-page-contacts-delete-notification`);
     await ClickCloseIconButton(page);
 }
 
 async function Profile(page: Page, lang: string, region: string) {
     await ClickProfile(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-profile.png`);
+    await TakeScreenshot(page, region, `patient-page-profile`);
 
     await ClickDeletePatient(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-page-profile-delete-patient.png`);
+    await TakeScreenshot(page, region, `patient-page-profile-delete-patient`);
     await ClickDontDeletePatient(page);
-}
-
-async function TakeScreenshot(page: Page, path: string) {
-    await page.screenshot({ path: path, animations: 'disabled' });
 }
 
 async function GoToMainPage(page, lang: string) {

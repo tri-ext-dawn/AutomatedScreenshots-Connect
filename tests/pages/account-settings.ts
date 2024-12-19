@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { TakeScreenshot } from '../../utils/utils';
 
 export async function Capture(page: Page, lang: string, region: string) {
     await ResetView(page);
@@ -6,24 +7,20 @@ export async function Capture(page: Page, lang: string, region: string) {
     await TogleSideMenu(page, lang);
     await ClickAccountSettings(page, lang);
     await NavigateToAbout(page, lang);
-    await TakeScreenshot(page, `screenshots/${region}/account-settings-about.png`);
+    await TakeScreenshot(page, region, `account-settings-about`);
 
     await TogleSideMenu(page, lang);
     await NavigateToYourProfile(page, lang);
     await OpenLanguageDropdown(page, lang);
-    await TakeScreenshot(page, `screenshots/${region}/account-settings-your-profile.png`);
+    await TakeScreenshot(page, region, `account-settings-your-profile`);
     
     await ClickSaveButton(page);
     await WaitForProfileSavedToast(page);
-    await TakeScreenshot(page, `screenshots/${region}/account-settings-your-profile-saved.png`);
+    await TakeScreenshot(page, region, `account-settings-your-profile-saved`);
 
     await ClickAccountSettings(page, lang);
     await ClickLogout(page);
-    await TakeScreenshot(page, `screenshots/${region}/account-settings-logout.png`);
-}
-
-async function TakeScreenshot(page: Page, path: string) {
-    await page.screenshot({ path: path, animations: 'disabled' });
+    await TakeScreenshot(page, region, `account-settings-logout`);
 }
 
 async function TogleSideMenu(page: Page, lang: string) {

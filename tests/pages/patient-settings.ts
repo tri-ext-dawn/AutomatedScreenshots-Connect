@@ -1,10 +1,11 @@
 import { Page } from '@playwright/test';
+import { TakeScreenshot, TakeScreenshotWithHeight } from '../../utils/utils';
 
 export async function Capture(page: Page, lang: string, region: string) {
     await GoToMainPage(page, lang);
  
     await ClickRowOptions(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-settings.png`);
+    await TakeScreenshot(page, region, `patient-settings`);
 
     await PrintReport(page, lang, region);
     await RecordGrowth(page, lang, region);
@@ -16,7 +17,7 @@ async function AssignDevice(page: Page, lang: string, region: string) {
     await ClickRowOptions(page);
     await ClickAssignDevice(page);
     await WaitForDeviceIDInput(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-settings-assign-device.png`);
+    await TakeScreenshot(page, region, `patient-settings-assign-device`);
     await ClickClose(page);
 }
 
@@ -28,28 +29,17 @@ async function RecordGrowth(page: Page, lang: string, region: string) {
     await ClickRowOptions(page);
     await ClickRecordGrowth(page);
     await ClickSave(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-settings-record-growth.png`);
+    await TakeScreenshot(page, region, `patient-settings-record-growth`);
     await ClickClose(page);
 }
 
 async function PrintReport(page: Page, lang: string, region: string) {
     await ClickPrintReport(page);
     await ClickPeriodDropdown(page);
-    await TakeScreenshot(page, `screenshots/${region}/patient-settings-PrintReport.png`);
+    await TakeScreenshot(page, region, `patient-settings-PrintReport`);
     const newPage = await ClickPrint(page);
-    await TakeScreenshotWithHeight(newPage, `screenshots/${region}/patient-settings-PrintReport-report.interesting-format.png`, 5000);
+    await TakeScreenshotWithHeight(newPage, region, `patient-settings-PrintReport-report`, 5000);
     await ClosePage(newPage);
-}
-
-async function TakeScreenshot(page: Page, path: string) {
-    await page.screenshot({ path: path, animations: 'disabled' });
-}
-
-async function TakeScreenshotWithHeight(page: Page, path: string, height: number) {
-    var viewPort = page.viewportSize();
-    await page.setViewportSize({ width: 1920, height: height });
-    await TakeScreenshot(page, path);
-    await page.setViewportSize({ width: viewPort?.width ?? 1920, height: viewPort?.height ?? 1080 });
 }
 
 async function GoToMainPage(page, lang: string) {

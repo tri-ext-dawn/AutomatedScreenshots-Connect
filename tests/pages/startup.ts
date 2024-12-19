@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { TakeScreenshot } from '../../utils/utils';
 
 import * as dotenv from 'dotenv';
 
@@ -7,10 +8,6 @@ dotenv.config();
 export async function Capture(page: Page, lang: string, region: string) {
     await Login(page, lang, region);
     await AcceptCookies(page, lang, region);
-}
-
-async function TakeScreenshot(page: Page, path: string) {
-    await page.screenshot({ path: path, animations: 'disabled' });
 }
 
 async function Login(page: Page, lang: string, region: string) {
@@ -29,7 +26,7 @@ async function AcceptCookies(page: Page, lang: string, region: string) {
     await page.goto('', { waitUntil: 'networkidle' });
     const acceptCookiesButton = await page.$('button.coi-banner__accept');
     if (acceptCookiesButton) {
-        TakeScreenshot(page, `screenshots/${region}/accept-cookies.png`);
+        await TakeScreenshot(page, region, `accept-cookies`);
         await acceptCookiesButton.click();
     }
     else {
