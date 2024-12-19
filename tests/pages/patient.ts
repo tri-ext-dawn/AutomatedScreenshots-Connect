@@ -1,23 +1,24 @@
 import { Page } from '@playwright/test';
 
-export async function Capture(page: Page, lang: string) {
+export async function Capture(page: Page, lang: string, region: string) {
     await GoToMainPage(page, lang);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-adherence.png`);
+    await page.waitForTimeout(2000);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-adherence.png`);
 
-    await Profile(page, lang);
-    await Contacts(page, lang);
-    await Devices(page, lang);
-    await Reminders(page, lang);
-    await Auxological(page, lang);
+    await Profile(page, lang, region);
+    await Contacts(page, lang, region);
+    await Devices(page, lang, region);
+    await Reminders(page, lang, region);
+    await Auxological(page, lang, region);
 }
 
-async function Auxological(page: Page, lang: string) {
+async function Auxological(page: Page, lang: string, region: string) {
     var viewPort = page.viewportSize();
     await page.setViewportSize({ width: 1920, height: 2000 });
     await ClickAuxologicalData(page);
     await ClickGraphTypeButton(page);
     await page.waitForTimeout(1000);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-height.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-height.png`);
 
     await ClickDeleteVital(page);
     await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-delete-vital.png`);
@@ -28,52 +29,54 @@ async function Auxological(page: Page, lang: string) {
     await page.waitForTimeout(1000);
     // await ClickReferenceData(page); // TODO: Fix this
     await ClickBoneAge(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-weight.png`); 
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-weight.png`); 
 
     await ClickGraphTypeButton(page);
     await page.waitForTimeout(1000);
     await ClickBMIButton(page);
     await ClickBirthAndFamilyHistoryButton(page);
     await page.waitForTimeout(1000);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-bmi.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-bmi.png`);
 
     await ClickEditFamilyHistory(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-Auxological-data-bmi-edit.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-Auxological-data-bmi-edit.png`);
     await ClickCancelEditFamilyHistory(page);
 
     await page.setViewportSize({ width: viewPort?.width ?? 1920, height: viewPort?.height ?? 1080 });
 }
 
-async function Reminders(page: Page, lang: string) {
+async function Reminders(page: Page, lang: string, region: string) {
     await ClickReminders(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-reminders.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-reminders.png`);
 }
 
-async function Devices(page: Page, lang: string) {
+async function Devices(page: Page, lang: string, region: string) {
     await ClickDevices(page);
     await ClickUnassignDevice(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-device-unassign.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-device-unassign.png`);
     await ClickDontUnassignDevice(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-device.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-device.png`);
 }
 
-async function Contacts(page: Page, lang: string) {
+async function Contacts(page: Page, lang: string, region: string) {
     await ClickContacts(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-contacts.png`);
-    await ClickSendInviteAgain(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-contacts-invite-notification.png`);
-    await ClickCancelInvite(page);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts.png`);
+
+    await ClickSendInviteAgain(page); // Todo: send Invite (not done) and Resend Invite (done)
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts-invite-notification.png`);
+    await ClickCloseIconButton(page);
+
     await ClickDeleteContact(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-contacts-delete-notification.png`);
-    await ClickDontDeleteContact(page);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-contacts-delete-notification.png`);
+    await ClickCloseIconButton(page);
 }
 
-async function Profile(page: Page, lang: string) {
+async function Profile(page: Page, lang: string, region: string) {
     await ClickProfile(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-profile.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-profile.png`);
 
     await ClickDeletePatient(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-page-profile-delete-patient.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-page-profile-delete-patient.png`);
     await ClickDontDeletePatient(page);
 }
 
@@ -207,4 +210,8 @@ async function ClickEditFamilyHistory(page: Page) {
 
 async function ClickCancelEditFamilyHistory(page: Page) {
     await page.click('button.generic-button_generic-button__NgNV5.generic-button_is-tertiary__4O_fg.generic-button_is-small__3oaxU[data-content-identifier="hcp.patient.auxological.birthAndFamilyHistory.edit.cancelButton"]');
+}
+
+async function ClickCloseIconButton(page: Page) {
+    await page.click('button.global-icon-button.icon-button_icon-button__eT309.icon-button_is-tertiary__1iRhi.icon-button_is-size-large__8xPAr.icon-button_is-hover-style__RzQcM');
 }

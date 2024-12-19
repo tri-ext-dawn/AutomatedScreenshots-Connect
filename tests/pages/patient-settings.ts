@@ -1,22 +1,22 @@
 import { Page } from '@playwright/test';
 
-export async function Capture(page: Page, lang: string) {
+export async function Capture(page: Page, lang: string, region: string) {
     await GoToMainPage(page, lang);
  
     await ClickRowOptions(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-settings.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-settings.png`);
 
-    await PrintReport(page, lang);
-    await RecordGrowth(page, lang);
+    await PrintReport(page, lang, region);
+    await RecordGrowth(page, lang, region);
 
-    await AssignDevice(page, lang);
+    await AssignDevice(page, lang, region);
 }
 
-async function AssignDevice(page: Page, lang: string) {
+async function AssignDevice(page: Page, lang: string, region: string) {
     await ClickRowOptions(page);
     await ClickAssignDevice(page);
     await WaitForDeviceIDInput(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-settings-assign-device.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-settings-assign-device.png`);
     await ClickClose(page);
 }
 
@@ -24,20 +24,20 @@ async function WaitForDeviceIDInput(page: Page) {
     await page.waitForSelector('input[data-content-identifier="global.addDevices.easypod.deviceIDButton"].base-auto-complete_text-input__zu_CD');
 }
 
-async function RecordGrowth(page: Page, lang: string) {
+async function RecordGrowth(page: Page, lang: string, region: string) {
     await ClickRowOptions(page);
     await ClickRecordGrowth(page);
     await ClickSave(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-settings-record-growth.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-settings-record-growth.png`);
     await ClickClose(page);
 }
 
-async function PrintReport(page: Page, lang: string) {
+async function PrintReport(page: Page, lang: string, region: string) {
     await ClickPrintReport(page);
     await ClickPeriodDropdown(page);
-    await TakeScreenshot(page, `screenshots/${lang}/patient-settings-PrintReport.png`);
+    await TakeScreenshot(page, `screenshots/${region}/patient-settings-PrintReport.png`);
     const newPage = await ClickPrint(page);
-    await TakeScreenshotWithHeight(newPage, `screenshots/${lang}/patient-settings-PrintReport-report.interesting-format.png`, 5000);
+    await TakeScreenshotWithHeight(newPage, `screenshots/${region}/patient-settings-PrintReport-report.interesting-format.png`, 5000);
     await ClosePage(newPage);
 }
 

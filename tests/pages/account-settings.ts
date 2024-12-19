@@ -1,25 +1,25 @@
 import { Page } from '@playwright/test';
 
-export async function Capture(page: Page, lang: string) {
+export async function Capture(page: Page, lang: string, region: string) {
     await ResetView(page);
 
     await TogleSideMenu(page, lang);
     await ClickAccountSettings(page, lang);
     await NavigateToAbout(page, lang);
-    await TakeScreenshot(page, `screenshots/${lang}/account-settings-about.png`);
+    await TakeScreenshot(page, `screenshots/${region}/account-settings-about.png`);
 
     await TogleSideMenu(page, lang);
     await NavigateToYourProfile(page, lang);
     await OpenLanguageDropdown(page, lang);
-    await TakeScreenshot(page, `screenshots/${lang}/account-settings-your-profile.png`);
+    await TakeScreenshot(page, `screenshots/${region}/account-settings-your-profile.png`);
     
     await ClickSaveButton(page);
     await WaitForProfileSavedToast(page);
-    await TakeScreenshot(page, `screenshots/${lang}/account-settings-your-profile-saved.png`);
+    await TakeScreenshot(page, `screenshots/${region}/account-settings-your-profile-saved.png`);
 
     await ClickAccountSettings(page, lang);
     await ClickLogout(page);
-    await TakeScreenshot(page, `screenshots/${lang}/account-settings-logout.png`);
+    await TakeScreenshot(page, `screenshots/${region}/account-settings-logout.png`);
 }
 
 async function TakeScreenshot(page: Page, path: string) {
@@ -51,7 +51,7 @@ async function ClickSaveButton(page: Page) {
 }
 
 async function WaitForProfileSavedToast(page: Page) {
-    await page.waitForSelector('div.toast-container_toast-container__cgnDE div[role="alert"] p:has-text("Profile saved")');
+    await page.waitForSelector('div.toast-container_toast-container__cgnDE div[role="alert"]');
 }
 
 async function ClickLogout(page: Page) {
