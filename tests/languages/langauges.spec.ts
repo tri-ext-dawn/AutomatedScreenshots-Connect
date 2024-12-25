@@ -16,23 +16,60 @@ test('Test', async ({ page }) => {
 });
 
 
-test('English Arabic', async ({ page }) => {
+test('Switcherland German', async ({ page }) => { // Missing EasyPod
+    const lang = 'de-ch';
+    const region = 'de-ch';
+    await testFlow(page, lang, region);
+});
+
+test('Switcherland French', async ({ page }) => { // Missing EasyPod
+    const lang = 'fr-ch';
+    const region = 'fr-ch';
+    await testFlow(page, lang, region);
+});
+
+test('Smartdot English', async ({ page }) => { // Problems with Patient Page Adherance
     const lang = 'en';
     const region = 'en-ae';
     await testFlow(page, lang, region);
 });
 
-test('Swedish', async ({ page }) => {
-    const lang = 'sv-SE';
-    const region = 'se';
+test('Without Smartdot English', async ({ page }) => { // Missing EasyPod
+    const lang = 'en';
+    const region = 'en-gb';
     await testFlow(page, lang, region);
 });
 
-test('Switcherland German', async ({ page }) => {
-    const lang = 'de-ch';
-    const region = 'ch';
+test('Hong Kong Chinese Traditional', async ({ page }) => { // Missing Language
+    const lang = 'zh-hk';
+    const region = 'zh-hk';
     await testFlow(page, lang, region);
 });
+
+test('Hong Kong Chinese Simplified', async ({ page }) => { // Missing Language
+    const lang = 'zh-cn';
+    const region = 'zh-cn';
+    await testFlow(page, lang, region);
+});
+
+test('Canada English', async ({ page }) => { // Missing EasyPod
+    const lang = 'en-ca';
+    const region = 'en-ca';
+    await testFlow(page, lang, region);
+});
+
+test('Canada French', async ({ page }) => { // Problems with Patient Page Adherance
+    const lang = 'fr-ca';
+    const region = 'fr-ca';
+    await testFlow(page, lang, region);
+});
+
+test('Argentina Spanish', async ({ page }) => { // Problems with Patient Page Adherance
+    const lang = 'es-ar';
+    const region = 'es-ar';
+    await testFlow(page, lang, region);
+});
+
 
 export async function testFlow(page, lang: string, region: string) {
     await startup.Capture(page, lang, region);
